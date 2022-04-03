@@ -1,16 +1,17 @@
+import os
+
+import cv2 as cv2
+import mat73
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-import cv2 as cv2
 import tensorflow as tf
-from tqdm import tqdm
-import mat73
-from sklearn.utils import shuffle
-from sklearn.model_selection import train_test_split
-from tensorflow.keras import layers, models
-import os
 from dictlearn import dictionary_learning
 from sklearn.decomposition import DictionaryLearning
+from sklearn.model_selection import train_test_split
+from sklearn.utils import shuffle
+from tensorflow.keras import layers, models
+from tqdm import tqdm
 
 labels = ['glioma', 'meningioma', 'normal', 'pituitary']
 x_train = []
@@ -79,4 +80,3 @@ model.compile(optimizer='Adam', loss='categorical_crossentropy', metrics=['accur
 results = model.predict(x_train)
 
 dictionary = dictionary_learning.dct_dict(64)
-
