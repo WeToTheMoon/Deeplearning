@@ -1,16 +1,15 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import cv2
+import cv2 as cv2
 import tensorflow as tf
 from tqdm import tqdm
 import mat73
 from sklearn.utils import shuffle
 from sklearn.model_selection import train_test_split
-from tensorflow.keras import datasets, layers, models
-from sklearn.metrics import classification_report,confusion_matrix
+from tensorflow.keras import layers, models
 import os
-from dictlearn import dct_dict
+from dictlearn import dictionary_learning
 from sklearn.decomposition import DictionaryLearning
 
 labels = ['glioma', 'meningioma', 'normal', 'pituitary']
@@ -20,14 +19,6 @@ x_test = []
 y_test = []
 i_size = 224
 
-# for i in labels:
-#     folderPath = os.path.join(r'C:\Users\kesch\OneDrive\Desktop\dataset2\trainm', i)
-#     for j in tqdm(os.listdir(folderPath)):
-#         img = mat73.loadmat(os.path.join(folderPath,j))
-#         img = np.zeros((i_size,i_size,3))
-#         x_train.append(img)
-#         y_train.append(i)
-
 for i in labels:
     folderPath = os.path.join(r'C:\Users\kesch\OneDrive\Desktop\dataset3\Training', i)
     for j in tqdm(os.listdir(folderPath)):
@@ -35,14 +26,6 @@ for i in labels:
         img = cv2.resize(img,(i_size,i_size))
         x_train.append(img)
         y_train.append(i)
-
-# for i in labels:
-#     folderPath = os.path.join(r'C:\Users\kesch\OneDrive\Desktop\dataset2\testm', i)
-#     for j in tqdm(os.listdir(folderPath)):
-#         img = mat73.loadmat(os.path.join(folderPath,j))
-#         img = np.zeros((i_size,i_size,3))
-#         x_test.append(img)
-#         y_test.append(i)
 
 for i in labels:
     folderPath = os.path.join(r'C:\Users\kesch\OneDrive\Desktop\dataset3\Testing', i)
@@ -95,8 +78,5 @@ model.compile(optimizer='Adam', loss='categorical_crossentropy', metrics=['accur
 
 results = model.predict(x_train)
 
-dictionary = dct_dict(results)
+dictionary = dictionary_learning.dct_dict(64)
 
-# dictionary = DictionaryLearning(max_iter = 300)
-
-# results = dictionary.fit_transform(results)
