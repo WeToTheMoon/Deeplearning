@@ -5,14 +5,15 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import cv2
 import tensorflow as tf
-from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
+from keras.preprocessing.image import ImageDataGenerator
 from tqdm import tqdm
 from sklearn.utils import shuffle
 from sklearn.model_selection import train_test_split
-from tensorflow.python.keras import datasets, layers, models, losses
+from tensorflow.python.keras import layers, models, losses
 from sklearn.metrics import classification_report,confusion_matrix
 import h5py
 from sklearn.model_selection import train_test_split
+import keras
 
 labels = ['glioma', 'meningioma', 'pituitary']
 x_train = []
@@ -44,8 +45,8 @@ for i in y_test:
 y_test = y_test_new
 y_test = tf.keras.utils.to_categorical(y_test)
 
-x_train = float(np.array(x_train) / 255)
-x_test = float(np.array(x_test) / 255)
+x_train = np.array(x_train) / 255.
+x_test = np.array(x_test) / 255.
 
 datagen = ImageDataGenerator(
     rotation_range=15,
@@ -62,7 +63,7 @@ datagen.fit(x_train)
 # colors_red = ["#331313", "#582626", '#9E1717', '#D35151', '#E9B4B4']
 # colors_green = ['#01411C','#4B6F44','#4F7942','#74C365','#D0F0C0']
 
-model = tf.keras.models.Sequential()
+model = keras.Sequential()
 model.add(layers.Conv2D(96, 4, strides=4, padding='same'))
 model.add(layers.Activation('relu'))
 model.add(layers.MaxPooling2D(3, strides=2))

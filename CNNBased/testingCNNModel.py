@@ -20,7 +20,7 @@ y_train_new, y_test_new = [], []
 for i in cancerTypes:
     folderPath = os.path.join(r'C:\Users\kesch\OneDrive\Documents\MATLAB\tumorpng1', i)
     for j in tqdm(os.listdir(folderPath)):
-        img = cv2.imread(os.path.join(folderPath,j), 0)
+        img = cv2.imread(os.path.join(folderPath,j))
         img = cv2.resize(img,(256,256))
         x_train.append(img)
         y_train.append(i)
@@ -43,8 +43,8 @@ y_test = y_test_new
 y_test = np_utils.to_categorical(y_test)
 
 
-x_train = float(np.array(x_train) / 255)
-x_test = float(np.array(x_test) / 255)
+x_train = np.array(x_train) / 255.
+x_test =  np.array(x_test) / 255.
 
 generatedData = ImageDataGenerator(
     rotation_range=10,
