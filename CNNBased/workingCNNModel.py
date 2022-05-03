@@ -5,11 +5,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import cv2
 import tensorflow as tf
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
 from tqdm import tqdm
 from sklearn.utils import shuffle
 from sklearn.model_selection import train_test_split
-from tensorflow.keras import datasets, layers, models, losses
+from tensorflow.python.keras import datasets, layers, models, losses
 from sklearn.metrics import classification_report,confusion_matrix
 import h5py
 from sklearn.model_selection import train_test_split
@@ -44,14 +44,17 @@ for i in y_test:
 y_test = y_test_new
 y_test = tf.keras.utils.to_categorical(y_test)
 
-x_train = np.array(x_train) / 255.
-x_test = np.array(x_test) / 255.
-datagen = ImageDataGenerator(rotation_range=15,
-shear_range=0.1,
-zoom_range=0.1,
-width_shift_range=0.15,
-height_shift_range=0.15,
-horizontal_flip=True)
+x_train = float(np.array(x_train) / 255)
+x_test = float(np.array(x_test) / 255)
+
+datagen = ImageDataGenerator(
+    rotation_range=15,
+    shear_range=0.1,
+    zoom_range=0.1,
+    width_shift_range=0.15,
+    height_shift_range=0.15,
+    horizontal_flip=True
+)
 
 datagen.fit(x_train)
 
