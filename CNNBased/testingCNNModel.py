@@ -57,29 +57,21 @@ generatedData = ImageDataGenerator(
 
 generatedData.fit(x_train)
 
-
-# colors_dark = ["#1F1F1F", "#313131", '#636363', '#AEAEAE', '#DADADA']
-# colors_red = ["#331313", "#582626", '#9E1717', '#D35151', '#E9B4B4']
-# colors_green = ['#01411C','#4B6F44','#4F7942','#74C365','#D0F0C0']
-
 model = keras.Sequential()
 
-model.add(layers.Conv2D(96, 4, strides=3, padding='same'))
+model.add(layers.Conv2D(96, 4, strides=4, padding='same'))
 model.add(layers.Activation('relu'))
 model.add(layers.MaxPooling2D(3, strides=2))
-model.add(layers.Conv2D(96, 4, strides=3, padding='same'))
+model.add(layers.Conv2D(96, 4, strides=4, padding='same'))
 model.add(layers.Activation('relu'))
-model.add(layers.MaxPooling2D(3, strides=2))
-model.add(layers.Conv2D(96, 4, strides=3, padding='same'))
+model.add(layers.MaxPooling2D(4, strides=2))
+model.add(layers.Conv2D(96, 4, strides=4, padding='same'))
 model.add(layers.Activation('relu'))
-model.add(layers.MaxPooling2D(3, strides=2))
-model.add(layers.Conv2D(96, 4, strides=3, padding='same'))
+model.add(layers.Conv2D(96, 4, strides=4, padding='same'))
 model.add(layers.Activation('relu'))
-model.add(layers.Conv2D(96, 4, strides=3, padding='same'))
+model.add(layers.Conv2D(96, 4, strides=4, padding='same'))
 model.add(layers.Activation('relu'))
-model.add(layers.Conv2D(96, 4, strides=3, padding='same'))
-model.add(layers.Activation('relu'))
-model.add(layers.Conv2D(96, 4, strides=3, padding='same'))
+model.add(layers.Conv2D(96, 4, strides=4, padding='same'))
 model.add(layers.Activation('relu'))
 model.add(layers.Flatten())
 model.add(layers.Dense(4096, activation='relu'))
