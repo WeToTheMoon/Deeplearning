@@ -18,16 +18,18 @@ from tqdm import tqdm
 class CNN:
     def __init__(self) -> None:
         self.layers = [
-            layers.Conv2D(64, 4, strides=4, padding='same', activation='relu'),
-            layers.Conv2D(128, 4, strides=4, padding='same', activation='relu'),
-            layers.Conv2D(256, 4, strides=4, padding='same', activation='relu'),
-            layers.Conv2D(512, 4, strides=4, padding='same', activation='relu'),
+            layers.Conv2D(64, 4, strides=3, padding='same', activation='relu'),
+            layers.Conv2D(128, 4, strides=3, padding='same', activation='relu'),
+            layers.Conv2D(256, 4, strides=3, padding='same', activation='relu'),
+            layers.Conv2D(512, 4, strides=3, padding='same', activation='relu'),
+            
             
             layers.Flatten(),
             
             layers.Dense(2048, activation='relu'),
             layers.Dense(1024, activation='relu'),
             layers.Dense(512, activation='relu'),
+            layers.Dense(256, activation='relu'),   
             layers.Dense(3, activation='softmax')
         ]
         
