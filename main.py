@@ -10,8 +10,8 @@ args = parser.parse_args()
 CNN = CNN()
 
 # Start the CNN # delete the path if run on Zachs's pc
-
+CNN.start(path=r'Dataset')
 if args.save == "true":
-    CNN.start(path=r'Dataset', saveOutput=True)
+    CNN.saveResults(path=r'Dataset', saveOutput=True)
 else:
-    CNN.start(path=r'Dataset', saveOutput=False)
+    CNN.saveResults(path=r'Dataset', saveOutput=False)
