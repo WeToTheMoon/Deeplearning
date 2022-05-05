@@ -17,10 +17,14 @@ class ImageManager:
         self.__typeList, self.__imageList,  = [], []
         self.__y_train_new, self.__y_test_new = [], []
 
-    def ver(self):
-        print("hi")
+    def refactorImage(self, image):
+        img = cv2.resize(image, (256, 256))
+        img = cv2.resize(img, (256, 256))
+        return img
 
-    def images(self, gray:bool = False):
+
+
+    def getImages(self):
         try:
             self.__dataset
         except:
@@ -31,16 +35,16 @@ class ImageManager:
             folderPath = os.path.join(self.__dataset, type)
             for j in tqdm(os.listdir(folderPath)):
                 img = cv2.imread(os.path.join(folderPath, j))
-                img = cv2.resize(img, (256, 256))
-                if gray:
-                    img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+                img = self.refactorImage(image=img)
                 self.__imageList.append(img)
                 self.__typeList.append(type)
 
-        print("Caching Images")
-
         self.__imageList = np.array(self.__imageList)
         self.__typeList = np.array(self.__typeList)
+        print(
+            f"Caching Images in ram \n"
+            f"Total Size in bytes: {self.__imageList.nbytes + self.__typeList.nbytes}"
+        )
 
         xTRAIN, xVAL, yTRAIN, yVAL = train_test_split(self.__imageList, self.__typeList, test_size=0.2, random_state=14)
 

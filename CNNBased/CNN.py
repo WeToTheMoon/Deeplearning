@@ -43,7 +43,7 @@ class CNN:
         )
 
         imageManager = ImageManager(path)
-        xTRAIN, xVAL, yTRAIN, yVAL = imageManager.images(gray=True)
+        xTRAIN, xVAL, yTRAIN, yVAL = imageManager.getImages()
 
         self.model.compile(
             # https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8321140/
