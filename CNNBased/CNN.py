@@ -11,27 +11,31 @@ from keras.preprocessing.image import ImageDataGenerator
 from keras.layers.normalization.batch_normalization import BatchNormalization
 from keras.utils.np_utils import to_categorical
 from sklearn.model_selection import train_test_split
-from tensorflow.python.keras import layers
 from tqdm import tqdm
 from CNNBased.ImageManager import ImageManager
+from keras import losses, layers
 
 
 class CNN:
     def __init__(self) -> None:
         self.layers = [
-            layers.Conv2D(64, 4, strides=3, padding='same', activation='relu'), # 64 * 4 = 256
-            layers.Conv2D(128, 4, strides=3, padding='same', activation='relu'),
-            layers.Conv2D(256, 4, strides=3, padding='same', activation='relu'),
-            layers.Conv2D(512, 4, strides=3, padding='same', activation='relu'),
-            # layers.Conv2D(1024, 4, strides=3, padding='same', activation='relu'),
+            layers.Conv2D(filters=64, kernel_size=4, strides=2, activation='relu', input_shape=(256,256,3)),
+            layers.Conv2D(filters=128, kernel_size=4, strides=2, activation='relu'),
+            # layers.MaxPool2D(pool_size=2),
+            layers.Conv2D(filters=256, kernel_size=4, strides=2, activation='relu'),
+            # layers.MaxPool2D(pool_size=2),
+            layers.Conv2D(filters=512, kernel_size=4, strides=2, activation='relu'),
+            layers.MaxPool2D(pool_size=2),
 
+            layers.Dropout(rate=0.25),
             layers.Flatten(),
 
             layers.Dense(2048, activation='relu'),
             layers.Dense(1024, activation='relu'),
             layers.Dense(512, activation='relu'),
             layers.Dense(256, activation='relu'),
-            layers.Dense(3, activation='softmax')
+            layers.Dense(3, activation='softmax'),
+            
         ]
 
     def start(self, filename:str = rf'results\cnn\Results {datetime.now().strftime(r"%Y_%m_%d-%I%M%S_%p")}.xlsx', path: str = r'C:\Users\kesch\OneDrive\Documents\MATLAB\tumorpng1', saveOutput: bool = True) -> None:
@@ -65,7 +69,7 @@ class CNN:
             # NAG: N/A
             # Gradient Decent: N/A
             optimizer='Adam',
-            loss='categorical_crossentropy',
+            loss=losses.categorical_crossentropy,
             metrics=['accuracy']
         )
 
