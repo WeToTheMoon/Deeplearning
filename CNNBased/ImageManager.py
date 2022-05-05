@@ -20,7 +20,7 @@ class ImageManager:
     def ver(self):
         print("hi")
 
-    def images(self):
+    def images(self, gray:bool = False):
         try:
             self.__dataset
         except:
@@ -32,6 +32,8 @@ class ImageManager:
             for j in tqdm(os.listdir(folderPath)):
                 img = cv2.imread(os.path.join(folderPath, j))
                 img = cv2.resize(img, (256, 256))
+                if gray:
+                    img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
                 self.__imageList.append(img)
                 self.__typeList.append(type)
 
