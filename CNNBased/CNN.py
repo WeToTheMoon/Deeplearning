@@ -18,22 +18,22 @@ from tqdm import tqdm
 class CNN:
     def __init__(self) -> None:
         self.layers = [
-            layers.Conv2D(64, 4, strides=3, padding='same', activation='relu'),
+            layers.Conv2D(64, 4, strides=3, padding='same', activation='relu'), # 64 * 4 = 256
             layers.Conv2D(128, 4, strides=3, padding='same', activation='relu'),
             layers.Conv2D(256, 4, strides=3, padding='same', activation='relu'),
             layers.Conv2D(512, 4, strides=3, padding='same', activation='relu'),
-            
-            
+            # layers.Conv2D(1024, 4, strides=3, padding='same', activation='relu'),
+
             layers.Flatten(),
-            
+
             layers.Dense(2048, activation='relu'),
             layers.Dense(1024, activation='relu'),
             layers.Dense(512, activation='relu'),
             layers.Dense(256, activation='relu'),   
             layers.Dense(3, activation='softmax')
         ]
-        
-    def start(self, path: str = r'C:\Users\kesch\OneDrive\Documents\MATLAB\tumorpng1', saveOutput: bool = True) -> None:
+
+    def start(self, filename:str, path: str = r'C:\Users\kesch\OneDrive\Documents\MATLAB\tumorpng1', saveOutput: bool = True) -> None:
         """
         Starts the compiling and running of the CNN model
 
@@ -113,7 +113,6 @@ class CNN:
         )
 
         if saveOutput:
-            filename = f'results\cnn\Results {datetime.now().strftime(r"%Y_%m_%d-%I%M%S_%p")}.xlsx'
             with open(filename, mode='wb') as file:
                 print(f"Save Staus: {saveOutput}, Saving Results to {filename}")
                 results = pd.DataFrame(results.history)
