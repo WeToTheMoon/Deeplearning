@@ -1,21 +1,10 @@
-import os
-from datetime import datetime
-
 import cv2
 import keras
-import keras.optimizers as optimizers  # Dont delete me
 import numpy as np
-import pandas as pd
-import tensorflow as tf
-from keras import layers, losses
-from keras.layers.normalization.batch_normalization import BatchNormalization
-from keras.preprocessing.image import ImageDataGenerator
-from keras.utils.np_utils import to_categorical
-from sklearn.model_selection import train_test_split
-from tqdm import tqdm
 from keras.utils.vis_utils import model_to_dot
+from keras import layers,losses
+from threading import Thread
 
-from CNNBased.ImageManager import ImageManager
 from CNNBased.layers.layerLists import K4S2MP, K4S2MP_GRAY, K4S4, K4S4_GRAY
 
 class ModelController:
@@ -25,15 +14,39 @@ class ModelController:
             layers= self.layers
         )
 
-    def getModel(self):
+    def getModel(self, compiled=False):
+        if compiled:
+            self.model.compile(
+            # https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8321140/
+            # Adam: 0.78-0.83
+            # RMSprop: 0.73-0.81
+            # Adamax:  0.74-0.78
+            # AdaGrad: N/A
+            # NAG: N/A
+            # Gradient Decent: N/A
+            optimizer='Adam',
+            loss='categorical_crossentropy',
+            metrics=['accuracy']
+        )
         return self.model
 
     def getLayers(self):
         return self.layers
 
     def renderModel(self) -> None:
-        svg = model_to_dot(self.model, show_shapes = True).create(prog='dot', format='svg')
-
-        cv2.imshow('CNN Model Layers',svg )
-        cv2.waitkey(0)
-        cv2.destroyAllWindows()
+        def render():
+            summary = self.model.summary()
+            print(summary)
+            render = model_to_dot(
+                self.model, 
+                show_shapes = True,
+            ).create(
+                format='png'
+            )
+            array = np.fromstring(render,dtype='uint8')
+            img = cv2.imdecode(array, cv2.IMREAD_UNCHANGED)
+            cv2.imshow('Model Layers Render', img)
+            cv2.waitKey(0)
+            cv2.destroyAllWindows()
+        th = Thread(target=render)
+        th.start()

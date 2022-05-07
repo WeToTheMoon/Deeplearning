@@ -1,29 +1,19 @@
 import os
 from datetime import datetime
 
-import cv2
-import keras
 import sys
-import keras.optimizers as optimizers  # Dont delete me
-import numpy as np
 import pandas as pd
-import tensorflow as tf
 from keras import layers, losses
-from keras.layers.normalization.batch_normalization import BatchNormalization
-from keras.preprocessing.image import ImageDataGenerator
-from keras.utils.np_utils import to_categorical
-from sklearn.model_selection import train_test_split
-from tqdm import tqdm
 
 from CNNBased.ImageManager import ImageManager
 from CNNBased.ModelController import ModelController
-from CNNBased.layers.layerLists import K4S2MP, K4S2MP_GRAY, K4S4, K4S4_GRAY
+from CNNBased.layers.layerLists import K4S2MP, K4S2MP_GRAY, K4S4, K4S4_GRAY, Testing_Layer, KDESCENDINGS3_GRAY, KDESCENDINGS3, LOW_DENSE
 
 
 class CNN:
     def __init__(self) -> None:
-        self.modelController = ModelController(K4S2MP_GRAY)
-        self.model = self.modelController.getModel()
+        self.modelController = ModelController(LOW_DENSE)
+        self.model = self.modelController.getModel(compiled=True)
 
     def start(self, path: str = r'C:\Users\kesch\OneDrive\Documents\MATLAB\tumorpng1') -> None:
         """
@@ -38,25 +28,12 @@ class CNN:
         """
         print(
             f"Starting CNN with arguments: \n"
-            f"Save Output: {saveOutput} \n"
-            f"Save Filename: {filename} \n"
+            f"Save Output: {None} \n"
+            f"Save Filename: {None} \n"
         )
 
         imageManager = ImageManager(path)
         xTRAIN, xVAL, yTRAIN, yVAL = imageManager.getImages()
-
-        self.model.compile(
-            # https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8321140/
-            # Adam: 0.78-0.83
-            # RMSprop: 0.73-0.81
-            # Adamax:  0.74-0.78
-            # AdaGrad: N/A
-            # NAG: N/A
-            # Gradient Decent: N/A
-            optimizer='Adam',
-            loss=losses.categorical_crossentropy,
-            metrics=['accuracy']
-        )
 
         self.results = self.model.fit(
             xTRAIN,
