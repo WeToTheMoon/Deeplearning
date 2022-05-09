@@ -17,4 +17,3 @@ if args.save == "true":
     CNN.saveResults(saveOutput=True)
 else:
     CNN.saveResults(saveOutput=False)
-
