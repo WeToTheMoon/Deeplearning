@@ -24,7 +24,3 @@ layers = [
 
     layers.Dense(3, activation='softmax'),
 ]
-
-# 23: 256 -> 512: FAIL
-# 22: 512 -> 256: Overfits late, FAIL
-# 22: 512 -> COMMENT: 
